@@ -1,0 +1,15 @@
+Zebras 10 10 5#
+Zebratown Stripia Homeland Stargate#
+15
+It's a warrior
+warrior zebra 5 25 4#
+25
+It's a archer
+archer zebra 0 20 3
+ml, move left, execML
+mr, move right, execMR
+mu, move up, execMU
+md, move down, execMD#
+50
+It's a wizard
+wizard zebra -15 50 5
