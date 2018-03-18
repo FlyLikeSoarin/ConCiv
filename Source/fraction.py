@@ -1,4 +1,4 @@
-from Source import units, name_pool, city
+import units, name_pool, city
 
 
 class Fraction:

@@ -1,4 +1,4 @@
-from Source.map_object import MapObject
+from map_object import MapObject
 import copy
 
 

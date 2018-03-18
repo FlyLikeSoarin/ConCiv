@@ -1,6 +1,6 @@
-from Source import fraction
+import fraction
 
-zebras = fraction.Fraction('Source/zebras.txt')
+zebras = fraction.Fraction('zebras.txt')
 city1 = zebras.get_city()
 print(city1.get_product_list(), sep='\n')
 city1.start_production('archer')

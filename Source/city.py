@@ -1,5 +1,5 @@
-from Source.map_object import MapObject
-from Source.units import UnitPrototype
+from map_object import MapObject
+from units import UnitPrototype
 
 
 class City(MapObject):

@@ -1,6 +1,3 @@
-import random
-
-
 class NamePool:
     def __init__(self, name_list):
         self.__name_list = name_list
