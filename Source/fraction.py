@@ -2,7 +2,8 @@ import units, name_pool, city
 
 
 class Fraction:
-    def __init__(self, load_file):
+
+    def __init__(self, load_file, id_counter):
         with open(load_file, 'r') as file:
             data = file.read()
         data = data.split('#\n')
@@ -13,7 +14,7 @@ class Fraction:
         self.name = head[0]
         self.__unit_builder = units.UnitBuilder(self.name)
         self.__city_builder = city.CityBuilder(head[0], head[1], head[2], head[3],
-                                               name_pool.NamePool(name_list))
+                                               name_pool.NamePool(name_list), id_counter)
         for unit_text in data:
             unit_text = unit_text.split('\n')
             production_needed = unit_text[0]

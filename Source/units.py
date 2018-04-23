@@ -3,17 +3,18 @@ import copy
 
 
 class Command:
-    def __init__(self, name, description, exec_string):
+    def __init__(self, name, cost, description, exec_string):
         self.name = name
+        self.cost = int(cost)
         self.description = description
         self.exec_string = exec_string
 
-
 class UnitPrototype:
-    def __init__(self):
+    def __init__(self, id_counter):
         self.__units_proto = dict()
         self.__production_needed = dict()
         self.__description = dict()
+        self.__id_counter = id_counter
 
     def register_unit(self, unit_prototype, prod_needed, description):
         self.__units_proto[unit_prototype.name] = unit_prototype
@@ -38,10 +39,12 @@ class UnitPrototype:
 
     def clone(self, name):
         unit_instance = copy.deepcopy(self.__units_proto.get(name))
+        unit_instance.object_id = next(self.__id_counter)
         return unit_instance
 
 
 class Unit(MapObject):
+
     def __init__(self, name, fraction, armour, attack, max_turn_actions):
         super(Unit, self).__init__(name, fraction, armour, attack)
         self.__command_list = []
@@ -63,11 +66,14 @@ class Unit(MapObject):
     def take_action(self, command):
         for action in self.__command_list:
             if action.name == command:
-                self.__max_turn_actions -= 1
+                self.__max_turn_actions -= action.cost
                 return action.exec_string
 
+    def get_info(self):
+        return str(self.health) + ' health points'
 
 class UnitBuilder:
+
     def __init__(self, fraction):
         self.__fraction = fraction
 
@@ -79,7 +85,7 @@ class UnitBuilder:
                     unit_head[3], unit_head[4])
         for command in unit_decoded:
             com_head = command.split(', ')
-            unit.add_command(Command(com_head[0], com_head[1], com_head[2]))
+            unit.add_command(Command(com_head[0], com_head[1], com_head[2], com_head[3]))
         return unit
 
 

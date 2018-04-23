@@ -1,24 +1,72 @@
-import fraction
+from battle import Battle1v1
 
-zebras = fraction.Fraction('zebras.txt')
-city1 = zebras.get_city()
-print(city1.get_product_list(), sep='\n')
-city1.start_production('archer')
-units = []
-for i in range(6):
-    print(city1.get_info())
-    if city1.next_turn():
-        units.append(city1.get_unit())
 
-city1.start_production('archer')
-for i in range(6):
-    print(city1.get_info())
-    if city1.next_turn():
-        units.append(city1.get_unit())
+i_battle = Battle1v1('zebras.txt', 'ponies.txt', 'map.txt')
 
-units[0].next_turn()
+print(i_battle.draw())
 
-for unit in units:
-    print(unit.command_list())
+i_battle.input_command(0)
 
-print(units[0].take_action('ml'))
+print(i_battle.draw())
+
+i_battle.input_command('Legion')
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(-1)
+
+print(i_battle.draw())
+
+i_battle.input_command(1)
+
+print(i_battle.draw())
+
+i_battle.input_command(1)
+
+print(i_battle.draw())
+
+i_battle.input_command('ml')

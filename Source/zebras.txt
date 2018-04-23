@@ -1,15 +1,46 @@
-Zebras 10 10 5#
+Zebras 30 25 5#
 Zebratown Stripia Homeland Stargate#
-15
-It's a warrior
-warrior zebra 5 25 4#
-25
-It's a archer
-archer zebra 0 20 3
-ml, move left, execML
-mr, move right, execMR
-mu, move up, execMU
-md, move down, execMD#
+30
+Melee unit
+Legion zebra 10 15 3
+ml, 1, move left, ml
+mr, 1, move right, mr
+mu, 1, move up, mu
+md, 1, move down, md
+al, 2, attack left, a-1^0
+ar, 2, attack right, a1^0
+au, 2, attack up, a0^-1
+ad, 2, attack down, a0^1
+ex_v, 3, attack up and down, a0^1_a0^-1
+ex_g, 3, attack left and right, a1^0_a-1^0#
+40
+Powerful siege unit
+Ballista zebra 5 30 2
+ml, 1, move left, ml
+mr, 1, move right, mr
+mu, 1, move up, mu
+md, 1, move down, md
+al, 2, attack left, a-1^0
+ar, 2, attack right, a1^0
+au, 2, attack up, a0^-1
+ad, 2, attack down, a0^1#
 50
-It's a wizard
-wizard zebra -15 50 5
+Ranged unit with mass damage spell
+Alchemist zebra -5 20 5
+ml, 2, move left, ml
+mr, 2, move right, mr
+mu, 2, move up, mu
+md, 2, move down, md
+al, 3, attack left, a-2^0
+ar, 3, attack right, a2^0
+au, 3, attack up, a0^-2
+ad, 3, attack down, a0^2
+nova, 5, damage everyone in 1 radius but dies, a1^1_a0^1_a-1^1_a1^1_a0^1_a-1^1_a1^0_a-1^0_d#
+50
+Can settle a city
+Settler zebra -100 0 2
+ml, 1, move left, ml
+mr, 1, move right, mr
+mu, 1, move up, mu
+md, 1, move down, md
+settle, 2, settle a city, s#
