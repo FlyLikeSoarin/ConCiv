@@ -1,0 +1,7 @@
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR
+cd Source
+resize -s 33 100
+stty rows 33
+stty cols 100
+python3 ConCiv_exec.py
