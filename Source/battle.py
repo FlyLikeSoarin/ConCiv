@@ -4,28 +4,41 @@ from fraction import Fraction
 from itertools import count
 from units import Unit
 from city import City
+from random import randint
+
+
+def next_fraction(current_player_id, fraction_num):
+    return current_player_id % fraction_num
+
+
+def random_pos(borders):
+    return Vector2i(randint(0, borders.x - 1), randint(0, borders.y - 1))
 
 
 class Battle1v1:
-    def __init__(self, f1_data_file, f2_data_file, map_file):
+    def __init__(self, fraction_files, map_file):
 
         self.id_counter = count()
-        self.fraction1 = Fraction(f1_data_file, self.id_counter)
-        self.fraction2 = Fraction(f2_data_file, self.id_counter)
-        self.current_player = self.fraction1.name
+
+        self.fractions = []
+        for file in fraction_files:
+            self.fractions.append(Fraction(file, self.id_counter))
+
+        self.fraction_num = len(self.fractions)
+        self.current_player_id = 0
+
+        self.current_player = self.fractions[0].name
+
         self.objects = dict()
 
         self.map = Map(Vector2i(0, 0))
         self.map.load_map(map_file)
 
-        city1 = self.fraction1.get_city()
-        city2 = self.fraction2.get_city()
+        for fraction in self.fractions:
+            city = fraction.get_city()
 
-        self.objects[city1.object_id] = city1
-        self.map.add_entity(city1.object_id, Vector2i(5, 15))
-
-        self.objects[city2.object_id] = city2
-        self.map.add_entity(city2.object_id, Vector2i(15, 5))
+            self.objects[city.object_id] = city
+            self.map.add_entity(city.object_id, random_pos(self.map.size), fraction.name, 'City')
 
         self.state = 'choosing object'
         self.current_unit = -1
@@ -75,7 +88,7 @@ class Battle1v1:
                     self.decision_list.append(action)
 
                 for i in range(len(self.decision_list)):
-                    str_list[3 + i] += '         ' + str(i) + '. ' + self.decision_list[i]
+                    str_list[3 + i] += '         ' + self.decision_list[i]
 
             if isinstance(self.objects[self.current_unit], City):
 
@@ -86,7 +99,7 @@ class Battle1v1:
                     self.decision_list.append(product)
 
                 for i in range(len(self.decision_list)):
-                    str_list[3 + i] += '         ' + str(i) + '. ' + self.decision_list[i]
+                    str_list[3 + i] += '         ' + self.decision_list[i]
 
             return '\n'.join(str_list)
 
@@ -97,10 +110,11 @@ class Battle1v1:
 
                 if object_local_id == -1:
                     self.state == 'choosing object'
-                    if self.current_player == self.fraction1.name:
-                        self.current_player = self.fraction2.name
-                    elif self.current_player == self.fraction2.name:
-                        self.current_player = self.fraction1.name
+                    self.current_player_id += 1
+                    self.current_player = self.fractions[
+                        next_fraction(self.current_player_id, self.fraction_num)
+                    ].name
+                    if next_fraction(self.current_player_id, self.fraction_num) == 0:
                         for key, map_object in self.objects.items():
                             map_object.next_turn()
 
@@ -110,7 +124,8 @@ class Battle1v1:
                                     new_unit = map_object.get_unit()
                                     self.objects[new_unit.object_id] = new_unit
                                     self.map.add_entity(new_unit.object_id,
-                                                        self.map.get_position(map_object.object_id))
+                                                        self.map.get_position(map_object.object_id),
+                                                        self.current_player, 'Unit')
                     return
 
                 self.current_unit = self.decision_list[object_local_id].object_id
@@ -121,7 +136,8 @@ class Battle1v1:
         elif self.state == 'choosing action':
             if isinstance(self.objects[self.current_unit], Unit):
                 try:
-                    self.objects[self.current_unit].take_action(command)
+                    exec_str = self.objects[self.current_unit].take_action(command)
+                    self.map.execute_string(exec_str, self.current_unit)
                     self.state = 'choosing object'
                 except Exception:
                     print('wrong command')

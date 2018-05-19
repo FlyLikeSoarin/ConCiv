@@ -65,9 +65,10 @@ class Unit(MapObject):
 
     def take_action(self, command):
         for action in self.__command_list:
-            if action.name == command:
+            if action.name == command and action.cost <= self.__max_turn_actions:
                 self.__max_turn_actions -= action.cost
                 return action.exec_string
+        return '0'
 
     def get_info(self):
         return str(self.health) + ' health points'
